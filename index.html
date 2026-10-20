@@ -167,6 +167,7 @@
   .row + .row { box-shadow: inset 0 .5px 0 var(--sep); }
   .row.accent { color: var(--accent); font-weight: 600; }
   .row.danger { color: var(--danger); }
+  .row.kofi { min-height: 44px; font-size: 14px; color: #72a4f2; text-decoration: none; }
   .g-note { margin: 0; padding: 12px 14px; border-radius: 14px; background: rgba(255, 69, 58, .14); color: #ff8a80; font-size: 14px; line-height: 1.4; display: flex; gap: 10px; }
   .g-note svg.i { color: var(--danger); margin-top: 1px; }
 
@@ -200,7 +201,7 @@
 <section id="library">
   <div class="lib-head">
     <h1>Bibliothek</h1>
-    <label class="add" for="addRoms" title="Spiele hinzufügen" aria-label="Spiele hinzufügen"><svg class="i"><use href="#i-plus"/></svg></label>
+    <button class="add" id="addBtn" style="border:0" title="Hinzufügen" aria-label="Hinzufügen"><svg class="i"><use href="#i-plus"/></svg></button>
     <input type="file" id="addRoms" multiple>
   </div>
   <div class="lib-list" id="libList"></div>
@@ -262,6 +263,13 @@
       <button class="row danger" id="g-delete">Aus Bibliothek löschen</button>
     </div>
     <div class="group"><button class="row" id="g-cancel" style="font-weight:600">Abbrechen</button></div>
+  </div>
+</div>
+
+<div class="overlay" id="addMenu" hidden>
+  <div class="sheet" role="dialog">
+    <div class="group"><label class="row accent" for="addRoms" id="a-add">Spiele hinzufügen</label></div>
+    <div class="group"><a class="row kofi" id="a-kofi" href="https://ko-fi.com/R0P726B72I" target="_blank" rel="noopener">♥ Unterstütze mich auf Ko-fi</a></div>
   </div>
 </div>
 
@@ -439,6 +447,8 @@ if (typeof exports === 'object' && typeof module === 'object') {
     $('gameMenu').hidden = false;
   }
   $('gameMenu').addEventListener('click', e => { if (e.target.id === 'gameMenu') $('gameMenu').hidden = true; });
+  $('addBtn').onclick = () => { $('addMenu').hidden = false; };
+  $('addMenu').addEventListener('click', e => { if (e.target.id === 'addMenu' || e.target.closest('#a-add, #a-kofi')) setTimeout(() => { $('addMenu').hidden = true; }, 0); });
   $('addRoms').addEventListener('change', async e => {
     const files = [...e.target.files]; e.target.value = '';
     let added = 0, lastId = null;
@@ -819,6 +829,5 @@ if (typeof exports === 'object' && typeof module === 'object') {
   window.__hh = { get M() { return M; }, get F() { return F; }, get pad() { return pad; }, launch };
 })();
 </script>
-<script>(function(){var s=document.createElement('script');s.src='https://storage.ko-fi.com/cdn/widget/Widget_2.js';s.onload=function(){try{kofiwidget2.init('Support me on Ko-fi','#72a4f2','R0P726B72I');kofiwidget2.draw();}catch(e){}};s.onerror=function(){};document.body.appendChild(s);})();</script>
 </body>
 </html>
